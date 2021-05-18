@@ -1,5 +1,5 @@
-*.pyc
 *.sqlite3
 *.vscode
-*/__pycache__/
-*/migrations/
+__pycache__/
+migrations/
+*.env

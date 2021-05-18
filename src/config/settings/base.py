@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -19,12 +19,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-nk7r=+abb5=angz0)svy2%i44ubayf@*it3^_vx05r7w0w&+w^'
-
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', ['127.0.0.1', '192.168.56.101'])
+DEBUG = True
 
 # Application definition
 
@@ -49,7 +48,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'recipe_app_api.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -69,18 +68,67 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'recipe_app_api.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# Using default sqlite
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
+# Set to maridb
+# DATABASES = {
+#     'default':
+#         {
+#             # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#             'ENGINE': 'django.db.backends.mysql',
+#             'OPTIONS': {
+#                 'charset': 'utf8mb4'
+#             },
+#             # Or path to database file if using sqlite3.
+#             'NAME': 'recipe_app_api',
+#             # The following settings are not used with sqlite3:
+#             'USER': 'root',
+#             'PASSWORD': 'foot',
+#             # Empty for localhost through domain sockets or '127.0.0.1' for
+#             # localhost through TCP.
+#             'HOST': '127.0.0.1',
+#             # Set to empty string for default.
+#             'PORT': '3306',
+#             # If you set USE_TZ to True
+#             'TIME_ZONE': 'Asia/Taipei',
+#         }
+# }
+
+import os
+# Set by .env
+DATABASES = {
+    'default':
+        {
+            # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'ENGINE': 'django.db.backends.mysql',
+            'OPTIONS': {
+                'charset': 'utf8mb4'
+            },
+            # Or path to database file if using sqlite3.
+            'NAME': os.environ.get('DB_NAME', 'recipe_app_api'),
+            # The following settings are not used with sqlite3:
+            'USER': os.environ.get('DB_USER', ''),
+            'PASSWORD': os.environ.get('DB_PASSWD', ''),
+            # Empty for localhost through domain sockets or '127.0.0.1' for
+            # localhost through TCP.
+            'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
+            # Set to empty string for default.
+            'PORT': os.environ.get('DB_PORT', '3306'),
+            # If you set USE_TZ to True
+            'TIME_ZONE': 'Asia/Taipei',
+        }
+}
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
