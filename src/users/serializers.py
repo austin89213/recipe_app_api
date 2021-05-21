@@ -33,8 +33,9 @@ class AuthTokenSerializer(serializers.Serializer):
             msg = ('Unable to authenticate with provided credentials')
             raise serializers.ValidationError(msg, code='authentication')
         attrs['user'] = user
-        return user
+        print(attrs)
+        return attrs
 
     # This is a default validate function. Would check how it works.
     # def validate(self, attrs):
-    # return super().validate(attrs)
+    #     return super().validate(attrs)
