@@ -12,7 +12,10 @@ from core.models import Recipe, Tag, Ingredient
 from recipes import serializers
 
 
-class BaseViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
+class BaseViewSet(
+    viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin
+):
     authentication_classes = (TokenAuthentication, )
     permission_classes = (IsAuthenticated, )
 
